@@ -1,4 +1,4 @@
-# Deploy Next Step: GitHub → Supabase → Anthropic → Vercel
+# Deploy SafeSpace: GitHub → Supabase → Anthropic → Vercel
 
 About 30–40 minutes. You need GitHub, Supabase, Anthropic Console and Vercel accounts (all free to start; Anthropic needs a few dollars of credit).
 
@@ -28,7 +28,7 @@ git add .
 ```
 
 ```bash
-git commit -m "Next Step prototype"
+git commit -m "SafeSpace prototype"
 ```
 
 ```bash

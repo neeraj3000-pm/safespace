@@ -2,7 +2,7 @@ import { computeInsights } from "@/lib/insights";
 import { InsightsCharts } from "./Charts";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Insights · Internal · Next Step" };
+export const metadata = { title: "Insights · Internal · SafeSpace" };
 
 const pct = (x: number) => `${Math.round(x * 100)}%`;
 
@@ -16,7 +16,7 @@ export default async function Insights() {
           ~{d.funnel[0].synthetic} synthetic past sessions + {d.liveSessionCount} live demo sessions · storage: {d.backend}
         </span>
       </div>
-      <h1 className="mt-3 text-3xl sm:text-4xl font-extrabold">Next Step: how it&apos;s doing</h1>
+      <h1 className="mt-3 text-3xl sm:text-4xl font-semibold">SafeSpace: how it&apos;s doing</h1>
 
       <section className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3" aria-label="Headline numbers">
         <Tile big label="North star: same expert at session 4" value={pct(d.sameS4)} note="of people who had session 1" accent />
@@ -28,15 +28,15 @@ export default async function Insights() {
       <InsightsCharts d={d} />
 
       <section className="mt-6 grid sm:grid-cols-2 gap-3" aria-label="AI quality and safety">
-        <div className="bg-white rounded-[24px] border border-line/70 p-5">
-          <h2 className="text-lg font-extrabold">AI quality</h2>
+        <div className="bg-white rounded-[14px] border border-line/70 p-5">
+          <h2 className="text-lg font-semibold">AI quality</h2>
           <div className="mt-3 grid grid-cols-2 gap-3">
             <Mini label="Check-ins where people edited the AI's topics" value={pct(d.editedPct)} />
             <Mini label="Understanding fell back to rules (low confidence / API failure)" value={pct(d.fallbackPct)} />
           </div>
           <h3 className="mt-5 font-heading font-bold">AI re-rank vs fallback</h3>
           <div className="mt-2 flex h-3 rounded-full overflow-hidden gap-0.5" role="img" aria-label={`AI re-rank ${pct(d.rerankAIPct)}, rule fallback ${pct(1 - d.rerankAIPct)}`}>
-            <div className="bg-teal" style={{ width: pct(d.rerankAIPct) }} />
+            <div className="bg-forest" style={{ width: pct(d.rerankAIPct) }} />
             <div className="bg-sand flex-1" />
           </div>
           <div className="mt-2 flex justify-between text-sm">
@@ -51,14 +51,14 @@ export default async function Insights() {
             High edit rates on one topic suggest a prompt or taxonomy fix. Fallbacks still give a full journey from rules. Compare &ldquo;felt heard&rdquo; for AI-ranked vs rule-ranked matches before trusting the re-rank more.
           </p>
         </div>
-        <div className="bg-white rounded-[24px] border border-line/70 p-5">
-          <h2 className="text-lg font-extrabold">Safety: check-ins flagged</h2>
+        <div className="bg-white rounded-[14px] border border-line/70 p-5">
+          <h2 className="text-lg font-semibold">Safety: check-ins flagged</h2>
           <table className="mt-3 w-full text-[15px]">
             <tbody>
               {d.safety.map((s) => (
                 <tr key={s.layer} className="border-b border-line last:border-0">
                   <td className="py-2">{s.layer}</td>
-                  <td className="py-2 text-right font-heading font-extrabold tabular-nums">{s.count}</td>
+                  <td className="py-2 text-right font-heading font-semibold tabular-nums">{s.count}</td>
                 </tr>
               ))}
             </tbody>
@@ -75,17 +75,17 @@ export default async function Insights() {
 
 function Tile({ label, value, note, big, accent }: { label: string; value: string; note: string; big?: boolean; accent?: boolean }) {
   return (
-    <div className={`rounded-[24px] p-5 ${accent ? "bg-teal text-white" : "bg-white border border-line/70"} ${big ? "col-span-2 lg:col-span-1" : ""}`}>
+    <div className={`rounded-[14px] p-5 ${accent ? "bg-forest text-white" : "bg-white border border-line/70"} ${big ? "col-span-2 lg:col-span-1" : ""}`}>
       <p className={`text-sm font-semibold ${accent ? "text-white/85" : "text-muted"}`}>{label}</p>
-      <p className="mt-1 font-heading font-extrabold text-4xl tabular-nums">{value}</p>
+      <p className="mt-1 font-heading font-semibold text-4xl tabular-nums">{value}</p>
       <p className={`text-xs ${accent ? "text-white/75" : "text-muted"}`}>{note}</p>
     </div>
   );
 }
 function Mini({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-cream rounded-2xl p-4">
-      <p className="font-heading font-extrabold text-3xl tabular-nums">{value}</p>
+    <div className="bg-cream rounded-xl p-4">
+      <p className="font-heading font-semibold text-3xl tabular-nums">{value}</p>
       <p className="text-xs text-muted mt-1">{label}</p>
     </div>
   );

@@ -24,7 +24,7 @@ export default function Start() {
   return (
     <PageShell className="pb-40 sm:pb-10">
       <div className="fade-up">
-        <h1 className="text-3xl font-extrabold">Before we begin</h1>
+        <h1 className="text-3xl font-semibold">Before we begin</h1>
         <p className="mt-2 text-muted">A quick, honest note on how this works.</p>
 
         <Card className="mt-6 p-6">
@@ -36,14 +36,14 @@ export default function Start() {
               ["Not for emergencies", null],
             ].map(([t, d]) => (
               <li key={t} className="flex gap-3">
-                <span className="mt-1 w-5 h-5 shrink-0 rounded-full bg-mint text-teal grid place-items-center text-xs" aria-hidden="true">✓</span>
+                <span className="mt-1 w-5 h-5 shrink-0 rounded-full bg-lime text-forest grid place-items-center text-xs" aria-hidden="true">✓</span>
                 <div>
                   <p className="font-heading font-bold">{t}</p>
                   <p className="text-muted text-[15px]">
                     {d ?? (
                       <>
                         If you&apos;re in danger or thinking of harming yourself, please{" "}
-                        <Link href="/help-now" className="text-teal font-semibold underline underline-offset-4">get help now</Link>.
+                        <Link href="/help-now" className="text-forest font-semibold underline underline-offset-4">get help now</Link>.
                       </>
                     )}
                   </p>
@@ -51,16 +51,16 @@ export default function Start() {
               </li>
             ))}
           </ul>
-          <label className="mt-6 flex items-start gap-3 bg-cream rounded-2xl p-4 cursor-pointer min-h-11">
-            <input type="checkbox" className="mt-1 w-5 h-5 accent-[#1F7A78]" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
+          <label className="mt-6 flex items-start gap-3 bg-cream rounded-xl p-4 cursor-pointer min-h-11">
+            <input type="checkbox" className="mt-1 w-5 h-5 accent-[#31572C]" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
             <span className="text-[15px]">I understand, and I&apos;m happy to continue.</span>
           </label>
         </Card>
 
-        <div className="mt-6 rounded-[20px] border border-dashed border-teal/40 bg-white/60">
+        <div className="mt-6 rounded-[12px] border border-dashed border-forest/40 bg-white/60">
           <button
             type="button"
-            className="w-full flex items-center justify-between px-5 min-h-12 font-heading font-bold text-teal"
+            className="w-full flex items-center justify-between px-5 min-h-12 font-heading font-bold text-forest"
             aria-expanded={open}
             onClick={() => setOpen(!open)}
           >
@@ -76,7 +76,7 @@ export default function Start() {
                   type="button"
                   disabled={!agreed}
                   onClick={() => begin(p.id)}
-                  className="text-left rounded-2xl border border-line bg-white px-4 py-3 hover:border-teal disabled:opacity-50"
+                  className="text-left rounded-xl border border-line bg-white px-4 py-3 hover:border-forest disabled:opacity-50"
                 >
                   <span className="font-heading font-bold">{p.name}</span>{" "}
                   <span className="text-sm text-muted">· {p.blurb}</span>

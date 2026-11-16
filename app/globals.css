@@ -1,21 +1,21 @@
 @import "tailwindcss";
 
+/* SafeSpace palette (from the MindPath reference) */
 @theme {
-  --color-teal: #1F7A78;
-  --color-teal-2: #2E9C99;
-  --color-teal-deep: #145554;
-  --color-mint: #DDF1EE;
-  --color-cream: #FBF7F1;
-  --color-sand: #F2E6D6;
-  --color-coral: #E8836B;
-  --color-coral-ink: #B4533B;
-  --color-ink: #23353A;
-  --color-muted: #5D7276;
-  --color-line: #E7DFD3;
-  --font-heading: var(--font-nunito), ui-rounded, system-ui, sans-serif;
-  --font-sans: var(--font-nunito-sans), system-ui, sans-serif;
-  --radius-card: 24px;
-  --shadow-soft: 0 1px 2px rgba(35, 53, 58, 0.04), 0 8px 24px -8px rgba(35, 53, 58, 0.10);
+  --color-forest: #31572C;      /* primary actions */
+  --color-forest-deep: #132A13; /* headings, dark bands, footer */
+  --color-moss: #4F772D;        /* secondary green */
+  --color-lime: #F9FFB2;        /* highlight bands, soft accents */
+  --color-cream: #FEFAE0;       /* page */
+  --color-sand: #F1ECCB;        /* quiet chips / tags */
+  --color-accent: #4F772D;
+  --color-accent-ink: #31572C;
+  --color-ink: #132A13;
+  --color-muted: #515151;
+  --color-line: #E3E3E3;
+  --font-heading: var(--font-jakarta), system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), system-ui, sans-serif;
+  --shadow-soft: 0 1px 2px rgba(19, 42, 19, 0.04), 0 10px 30px -12px rgba(19, 42, 19, 0.14);
 }
 
 html { -webkit-text-size-adjust: 100%; }
@@ -24,16 +24,18 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
 }
-h1, h2, h3, h4 { font-family: var(--font-heading); letter-spacing: -0.01em; }
+h1, h2, h3, h4 { font-family: var(--font-heading); letter-spacing: -0.03em; }
 
 :focus-visible {
-  outline: 3px solid var(--color-coral);
+  outline: 3px solid var(--color-moss);
   outline-offset: 2px;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .fade-up { animation: fadeUp .45s ease both; }
 @keyframes breathe { 0%,100% { transform: scale(0.92); } 50% { transform: scale(1.05); } }
 .breathe { animation: breathe 4s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .fade-up, .breathe { animation: none; } }
+@keyframes drift { from { transform: translateX(0); } to { transform: translateX(24px); } }
+.drift { animation: drift 14s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .fade-up, .breathe, .drift { animation: none; } }

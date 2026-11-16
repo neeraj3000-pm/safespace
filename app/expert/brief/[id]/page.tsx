@@ -5,7 +5,7 @@ import { BriefView } from "./BriefView";
 import { LocalBrief } from "./LocalBrief";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Expert view (demo) · Next Step" };
+export const metadata = { title: "Expert view (demo) · SafeSpace" };
 
 export default async function ExpertBrief({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

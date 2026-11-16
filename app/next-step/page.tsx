@@ -55,7 +55,7 @@ export default function NextStep() {
     <section aria-labelledby="pathA">
       <h2 id="pathA" className="sr-only">Talk to an expert</h2>
       {ns.relaxed.length > 0 && (
-        <p className="mb-4 text-sm bg-sand/70 rounded-2xl px-4 py-3">
+        <p className="mb-4 text-sm bg-sand/70 rounded-xl px-4 py-3">
           We couldn&apos;t find three experts matching everything, so we relaxed {ns.relaxed.map((r) => RELAX_COPY[r]).join(" and ")}.
         </p>
       )}
@@ -63,9 +63,9 @@ export default function NextStep() {
         <div className="grid gap-4 md:grid-cols-3" role="status" aria-live="polite">
           <span className="sr-only">Finding the best fit for you…</span>
           {[0, 1, 2].map((i) => (
-            <div key={i} className="rounded-[24px] bg-white border border-line/70 p-5 h-[420px] animate-pulse">
-              <div className="flex gap-4"><div className="w-20 h-20 rounded-[24px] bg-sand" /><div className="flex-1 space-y-2 pt-2"><div className="h-4 bg-sand rounded w-2/3" /><div className="h-3 bg-sand/70 rounded w-1/2" /></div></div>
-              <div className="mt-5 h-16 rounded-2xl bg-mint/60" />
+            <div key={i} className="rounded-[14px] bg-white border border-line/70 p-5 h-[420px] animate-pulse">
+              <div className="flex gap-4"><div className="w-20 h-20 rounded-[14px] bg-sand" /><div className="flex-1 space-y-2 pt-2"><div className="h-4 bg-sand rounded w-2/3" /><div className="h-3 bg-sand/70 rounded w-1/2" /></div></div>
+              <div className="mt-5 h-16 rounded-xl bg-lime/60" />
               <div className="mt-4 space-y-2"><div className="h-3 bg-sand/70 rounded" /><div className="h-3 bg-sand/70 rounded w-4/5" /></div>
             </div>
           ))}
@@ -99,9 +99,9 @@ export default function NextStep() {
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-muted">
                 <span aria-hidden="true">{TYPE_ICON[r.type]}</span> {r.type} · {r.duration}
               </div>
-              <h3 className="mt-2 text-lg font-extrabold leading-snug">{r.title}</h3>
+              <h3 className="mt-2 text-lg font-semibold leading-snug">{r.title}</h3>
               <p className="mt-1 text-[15px] text-muted">{r.description}</p>
-              <p className="mt-3 text-sm bg-mint/60 text-teal-deep rounded-2xl px-3 py-2">{r.reason}</p>
+              <p className="mt-3 text-sm bg-lime/60 text-forest-deep rounded-xl px-3 py-2">{r.reason}</p>
               <div className="mt-auto pt-4">
                 <Button variant="secondary" className="w-full" onClick={() => { setOpenedRes(r.id); track("resource_opened", { id: r.id }); }}>
                   {openedRes === r.id ? "Added to your plan ✓" : "Start"}
@@ -120,10 +120,10 @@ export default function NextStep() {
   return (
     <PageShell narrow={false} className="pb-10">
       <div className="max-w-3xl fade-up">
-        <p className="text-sm font-semibold text-teal">Your next step</p>
+        <p className="text-sm font-semibold text-forest">Your next step</p>
         {primary === "A" ? (
           <>
-            <h1 className="mt-1 text-3xl sm:text-4xl font-extrabold">Talk to an expert who gets it</h1>
+            <h1 className="mt-1 text-3xl sm:text-4xl font-semibold">Talk to an expert who gets it</h1>
             <p className="mt-2 text-muted text-lg">
               Based on what you shared, a few conversations with the right person could really help.
               We&apos;d start with {firstName(ns.experts[0])}.
@@ -131,7 +131,7 @@ export default function NextStep() {
           </>
         ) : (
           <>
-            <h1 className="mt-1 text-3xl sm:text-4xl font-extrabold">Start on your own, at your pace</h1>
+            <h1 className="mt-1 text-3xl sm:text-4xl font-semibold">Start on your own, at your pace</h1>
             <p className="mt-2 text-muted text-lg">A few short tools picked for what you shared. An expert is always one tap away.</p>
           </>
         )}
@@ -140,10 +140,10 @@ export default function NextStep() {
       <div className="mt-8">{primary === "A" ? expertsBlock : resourcesBlock()}</div>
 
       {primary === "B" && (
-        <div className="mt-6 p-5 sm:p-6 rounded-[24px] bg-mint flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
+        <div className="mt-6 p-5 sm:p-6 rounded-[14px] bg-lime flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
           <div>
-            <h2 className="text-lg font-extrabold text-teal-deep">Prefer to talk to an expert?</h2>
-            <p className="text-teal-deep/80 text-[15px]">We&apos;ve already found three who fit you. No pressure, it&apos;s here when you want it.</p>
+            <h2 className="text-lg font-semibold text-forest-deep">Prefer to talk to an expert?</h2>
+            <p className="text-forest-deep/80 text-[15px]">We&apos;ve already found three who fit you. No pressure, it&apos;s here when you want it.</p>
           </div>
           <Button onClick={() => { setShowSecondary(!showSecondary); track("secondary_path_opened", { path: "A" }); }} aria-expanded={showSecondary}>
             {showSecondary ? "Hide experts" : "Talk to an expert"}
@@ -156,7 +156,7 @@ export default function NextStep() {
         <div className="mt-10">
           <button
             type="button"
-            className="w-full sm:w-auto text-left flex items-center gap-2 font-heading font-bold text-teal min-h-11"
+            className="w-full sm:w-auto text-left flex items-center gap-2 font-heading font-bold text-forest min-h-11"
             aria-expanded={showSecondary}
             onClick={() => { setShowSecondary(!showSecondary); track("secondary_path_opened", { path: "B" }); }}
           >
@@ -166,9 +166,9 @@ export default function NextStep() {
         </div>
       )}
 
-      <Card className="mt-10 p-5 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between border-teal/20">
+      <Card className="mt-10 p-5 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between border-forest/20">
         <p className="text-[15px]"><b className="font-heading">Need help right now?</b> <span className="text-muted">Talk to someone 24x7, free and confidential.</span></p>
-        <Link href="/help-now" className="font-heading font-bold text-teal underline underline-offset-4 min-h-11 inline-flex items-center">Get help now</Link>
+        <Link href="/help-now" className="font-heading font-bold text-forest underline underline-offset-4 min-h-11 inline-flex items-center">Get help now</Link>
       </Card>
     </PageShell>
   );

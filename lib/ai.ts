@@ -71,7 +71,7 @@ const UnderstandSchema = z.object({
 });
 export type Understanding = z.infer<typeof UnderstandSchema>;
 
-const UNDERSTAND_SYSTEM = `You are the understanding step of "Next Step", an employee mental-wellbeing app in India.
+const UNDERSTAND_SYSTEM = `You are the understanding step of "SafeSpace", an employee mental-wellbeing app in India.
 A person has shared, in their own words, what has been on their mind. Text may be English, Hindi, or Hinglish (Hindi in Latin script).
 Your job is to turn it into structured needs. You do NOT give advice and you do NOT diagnose.
 
@@ -139,7 +139,7 @@ export function isGrounded(line: string, e: Expert): boolean {
 /* /api/rerank: AI picks + orders the best 3 of the rules' top 6       */
 /* ------------------------------------------------------------------ */
 
-const RERANK_SYSTEM = `You are the re-ranking step of "Next Step", an employee wellbeing app in India.
+const RERANK_SYSTEM = `You are the re-ranking step of "SafeSpace", an employee wellbeing app in India.
 Rules have already shortlisted experts who pass every hard filter (language, gender, topic, time). Your job: pick the best 3 for this person, in order, and give a reason for each.
 
 How to choose:
@@ -225,7 +225,7 @@ Return the best ${k}, best first.`;
 /* /api/brief: 3-line handover for the expert                          */
 /* ------------------------------------------------------------------ */
 
-const BRIEF_SYSTEM = `You write a 3-line handover brief that an expert reads before a first session on "Next Step", an employee wellbeing app.
+const BRIEF_SYSTEM = `You write a 3-line handover brief that an expert reads before a first session on "SafeSpace", an employee wellbeing app.
 The person has consented to share it. It exists so they don't have to repeat themselves.
 You are given ONLY topic tags, an AI summary and preferences. You never see the person's own words.
 

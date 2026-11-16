@@ -10,7 +10,7 @@ export function Avatar({ a, size = 72, name }: { a: Expert["avatar"]; size?: num
       {s === 0 && <path d="M18 44c0-18 8-28 22-28s22 10 22 28v22H18z" fill={a.hair} />}
       {s === 1 && <path d="M20 40c0-15 8-24 20-24s20 9 20 24v14H20z" fill={a.hair} />}
       {/* shoulders */}
-      <path d="M14 80c2-14 12-20 26-20s24 6 26 20z" fill="#1F7A78" opacity=".85" />
+      <path d="M14 80c2-14 12-20 26-20s24 6 26 20z" fill="#31572C" opacity=".85" />
       <rect x="35" y="50" width="10" height="12" rx="4" fill={a.skin} />
       {/* face */}
       <ellipse cx="40" cy="38" rx="13" ry="15" fill={a.skin} />
@@ -22,9 +22,9 @@ export function Avatar({ a, size = 72, name }: { a: Expert["avatar"]; size?: num
       {s === 4 && <><path d="M27 33c0-9 6-13 13-13s13 4 13 13c-3-4-8-5-13-5s-10 1-13 5z" fill={a.hair} /><path d="M30 46c3 5 6 7 10 7s7-2 10-7c0 6-4 10-10 10s-10-4-10-10z" fill={a.hair} opacity=".9" /></>}
       {s === 5 && <path d="M27 34c0-10 6-15 13-15s13 5 13 15l-3-5c-3-2-7-3-10-3s-7 1-10 3z" fill={a.hair} />}
       {/* features */}
-      <circle cx="35" cy="39" r="1.6" fill="#23353A" />
-      <circle cx="45" cy="39" r="1.6" fill="#23353A" />
-      <path d="M36 45c2 2 6 2 8 0" stroke="#23353A" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+      <circle cx="35" cy="39" r="1.6" fill="#132A13" />
+      <circle cx="45" cy="39" r="1.6" fill="#132A13" />
+      <path d="M36 45c2 2 6 2 8 0" stroke="#132A13" strokeWidth="1.6" fill="none" strokeLinecap="round" />
     </svg>
   );
 }

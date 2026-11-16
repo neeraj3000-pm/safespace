@@ -1,6 +1,6 @@
-# Next Step: a YourDOST prototype
+# SafeSpace: a YourDOST prototype
 
-Tell us what's on your mind, in your own words and any language. Next Step works out the most useful next step (talk to the right expert, start with a self-help tool, or get help right now) and explains why.
+Tell us what's on your mind, in your own words and any language. SafeSpace works out the most useful next step (talk to the right expert, start with a self-help tool, or get help right now) and explains why.
 
 **All data is fictional.** Built for the YourDOST Senior PM take-home (Task 3).
 

@@ -12,14 +12,14 @@ export function Timeline({ current = 1 }: { current?: number }) {
       {STEPS.map((x, i) => (
         <li key={x.s} className="relative flex gap-4">
           <span
-            className={`relative z-10 w-8 h-8 shrink-0 rounded-full grid place-items-center font-heading font-extrabold text-sm ${
-              i === activeIdx ? "bg-teal text-white ring-4 ring-mint" : i < activeIdx ? "bg-teal-2 text-white" : "bg-white border-2 border-sand text-muted"
+            className={`relative z-10 w-8 h-8 shrink-0 rounded-full grid place-items-center font-heading font-semibold text-sm ${
+              i === activeIdx ? "bg-forest text-white ring-4 ring-lime" : i < activeIdx ? "bg-moss text-white" : "bg-white border-2 border-sand text-muted"
             }`}
           >
             {i + 1}
           </span>
           <div>
-            <p className="text-xs font-bold uppercase tracking-wide text-teal">{x.s}</p>
+            <p className="text-xs font-bold uppercase tracking-wide text-forest">{x.s}</p>
             <p className="font-heading font-bold text-lg leading-snug">{x.t}</p>
             <p className="text-muted text-[15px]">{x.d}</p>
           </div>

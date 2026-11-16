@@ -1,4 +1,4 @@
-# Next Step: walkthrough script and build notes
+# SafeSpace: walkthrough script and build notes
 
 ## Personas to click (on `/start`, tick the box, then open "Try a demo persona")
 
@@ -11,7 +11,7 @@
 ## 3-minute walkthrough script
 
 **0:00–0:15 · Setup**
-"YourDOST users often don't know whether they need a counsellor, a self-help tool or urgent help. When they do pick a counsellor, it's close to random. Next Step uses AI to understand people in their own words and recommend one clear next step, and it keeps rules in charge of safety and matching."
+"YourDOST users often don't know whether they need a counsellor, a self-help tool or urgent help. When they do pick a counsellor, it's close to random. SafeSpace uses AI to understand people in their own words and recommend one clear next step, and it keeps rules in charge of safety and matching."
 
 **0:15–1:30 · Riya, end to end (with a switch)**
 1. Landing → *Get started*. "Anonymous, about a minute, and the free text isn't stored."

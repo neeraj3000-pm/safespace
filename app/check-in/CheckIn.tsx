@@ -86,7 +86,7 @@ export default function CheckIn() {
 
       {step === 1 && (
         <section className="mt-8 fade-up" aria-labelledby="q1">
-          <h1 id="q1" className="text-[28px] leading-tight font-extrabold">What&apos;s been on your mind lately?</h1>
+          <h1 id="q1" className="text-[28px] leading-tight font-semibold">What&apos;s been on your mind lately?</h1>
           <p className="mt-2 text-muted">Optional. A line or two is plenty.</p>
           <label htmlFor="mind" className="sr-only">What&apos;s been on your mind</label>
           <textarea
@@ -96,7 +96,7 @@ export default function CheckIn() {
             onChange={(e) => setText(e.target.value)}
             rows={5}
             placeholder="Write in English, Hindi or Hinglish. Whatever feels natural."
-            className="mt-5 w-full rounded-[20px] border border-line bg-white p-4 text-[16px] leading-relaxed shadow-soft focus:outline-none focus:border-teal-2 focus:ring-4 focus:ring-mint resize-none"
+            className="mt-5 w-full rounded-[12px] border border-line bg-white p-4 text-[16px] leading-relaxed shadow-soft focus:outline-none focus:border-moss focus:ring-4 focus:ring-lime resize-none"
           />
           <div className="flex justify-between text-xs text-muted mt-1.5">
             <span>Not stored. Names and numbers are removed before we read it.</span>
@@ -116,7 +116,7 @@ export default function CheckIn() {
       {step === 2 && (
         <section className="mt-8 fade-up space-y-7" aria-labelledby="q2">
           <div>
-            <h1 id="q2" className="text-[28px] leading-tight font-extrabold">A few quick taps</h1>
+            <h1 id="q2" className="text-[28px] leading-tight font-semibold">A few quick taps</h1>
             <p className="mt-2 text-muted">So we can suggest someone who fits you.</p>
           </div>
           <TapGroup label="Language you'd like to talk in" options={LANGUAGES} value={answers.language} onChange={(v) => set("language", v)} />
@@ -129,7 +129,7 @@ export default function CheckIn() {
 
       {step === 3 && (
         <section className="mt-8 fade-up" aria-labelledby="q3">
-          <h1 id="q3" className="text-[28px] leading-tight font-extrabold">How do you feel about talking to someone?</h1>
+          <h1 id="q3" className="text-[28px] leading-tight font-semibold">How do you feel about talking to someone?</h1>
           <p className="mt-2 text-muted">There&apos;s no wrong answer. Lots of people start on their own.</p>
           <div role="radiogroup" aria-labelledby="q3" className="mt-6 grid gap-3">
             {READINESS.map((r) => (
@@ -139,15 +139,15 @@ export default function CheckIn() {
                 role="radio"
                 aria-checked={answers.readiness === r}
                 onClick={() => set("readiness", r)}
-                className={`text-left rounded-[20px] border px-5 py-4 min-h-14 font-heading font-bold text-[17px] transition-colors ${
-                  answers.readiness === r ? "bg-mint border-teal text-teal-deep" : "bg-white border-line hover:border-teal-2"
+                className={`text-left rounded-[12px] border px-5 py-4 min-h-14 font-heading font-bold text-[17px] transition-colors ${
+                  answers.readiness === r ? "bg-lime border-forest text-forest-deep" : "bg-white border-line hover:border-moss"
                 }`}
               >
                 {READINESS_LABEL[r]}
               </button>
             ))}
           </div>
-          {error && <p role="alert" className="mt-4 text-coral-ink">{error}</p>}
+          {error && <p role="alert" className="mt-4 text-accent-ink">{error}</p>}
         </section>
       )}
 

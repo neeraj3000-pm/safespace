@@ -44,7 +44,7 @@ const RAW: Raw[] = [
   ["e24", "Deepa Hegde", "woman", ["English", "Kannada", "Hindi"], ["parenting", "family", "low mood", "anger"], ["parent", "mid-career"], "listener", 10, "M.Phil Clinical Psychology", 4.4, 312, [[3, "mornings"], [4, "evenings"], [5, "weekends"]], "Supports parents through the hard bits (tantrums, teens and tiredness) without judgement."],
 ];
 
-const BG = ["#DDF1EE", "#F2E6D6", "#FBE3DC", "#E4EEF7", "#EDE7F6", "#E8F3E1"];
+const BG = ["#F9FFB2", "#F1ECCB", "#E4EDD3", "#EEF3C8", "#E8E4D0", "#DCE8C9"];
 const SKIN = ["#8D5A3B", "#A66E4A", "#C48A63", "#7A4A2E", "#B07B55", "#D2A07A"];
 const HAIR = ["#23181A", "#3A2622", "#1B1B1F", "#4A3328", "#2C2420"];
 

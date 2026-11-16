@@ -93,17 +93,17 @@ export default function Book() {
 
   return (
     <PageShell className="pb-44 sm:pb-10">
-      <p className="text-sm font-semibold text-teal">{pb.intro ? "Book a free 10-minute intro call" : "Book your session"}</p>
+      <p className="text-sm font-semibold text-forest">{pb.intro ? "Book a free 10-minute intro call" : "Book your session"}</p>
       <Card className="mt-3 p-5 flex items-center gap-4 fade-up">
         <Avatar a={e.avatar} name={e.name} size={64} />
         <div>
-          <h1 className="font-heading font-extrabold text-xl">{e.name}</h1>
+          <h1 className="font-heading font-semibold text-xl">{e.name}</h1>
           <p className="text-sm text-muted">{e.credential} · {e.languages.join(", ")}</p>
         </div>
       </Card>
 
       {pb.switchReason && (
-        <p className="mt-4 rounded-2xl bg-mint text-teal-deep px-4 py-3 font-semibold">
+        <p className="mt-4 rounded-xl bg-lime text-forest-deep px-4 py-3 font-semibold">
           Your new expert will know what you&apos;ve shared, so you won&apos;t start over.
         </p>
       )}
@@ -118,7 +118,7 @@ export default function Book() {
               role="radio"
               aria-checked={slot === s.label}
               onClick={() => setSlot(s.label)}
-              className={`text-left min-h-12 px-4 rounded-2xl border font-semibold ${slot === s.label ? "bg-mint border-teal" : "bg-white border-line hover:border-teal-2"}`}
+              className={`text-left min-h-12 px-4 rounded-xl border font-semibold ${slot === s.label ? "bg-lime border-forest" : "bg-white border-line hover:border-moss"}`}
             >
               {s.label}
             </button>
@@ -141,7 +141,7 @@ export default function Book() {
             role="switch"
             aria-checked={share}
             onClick={() => setShare(!share)}
-            className={`relative shrink-0 w-14 h-8 rounded-full transition-colors ${share ? "bg-teal" : "bg-line"}`}
+            className={`relative shrink-0 w-14 h-8 rounded-full transition-colors ${share ? "bg-forest" : "bg-line"}`}
           >
             <span className={`absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow transition-transform ${share ? "translate-x-6" : ""}`} />
             <span className="sr-only">{share ? "On" : "Off"}</span>
@@ -153,7 +153,7 @@ export default function Book() {
             <div className="flex items-center justify-between">
               <p className="text-sm font-semibold text-muted">Exactly what {first} will see{switchLabel ? " (handover)" : ""}:</p>
               {draft && (
-                <button type="button" className="text-sm font-semibold text-teal min-h-11 px-2" onClick={() => setEditing(!editing)} aria-expanded={editing}>
+                <button type="button" className="text-sm font-semibold text-forest min-h-11 px-2" onClick={() => setEditing(!editing)} aria-expanded={editing}>
                   {editing ? "Done" : "Edit"}
                 </button>
               )}
@@ -172,14 +172,14 @@ export default function Book() {
                       maxLength={180}
                       rows={2}
                       onChange={(ev) => setLines(lines.map((x, k) => (k === i ? ev.target.value : x)))}
-                      className="w-full rounded-2xl border border-line bg-cream p-3 text-[15px] focus:outline-none focus:border-teal-2 focus:ring-4 focus:ring-mint resize-none"
+                      className="w-full rounded-xl border border-line bg-cream p-3 text-[15px] focus:outline-none focus:border-moss focus:ring-4 focus:ring-lime resize-none"
                     />
                   </label>
                 ))}
                 <p className="text-xs text-muted">Please don&apos;t add names or contact details. We remove them anyway.</p>
               </div>
             ) : (
-              <ol className="mt-2 rounded-2xl bg-cream border border-line p-4 space-y-2 text-[15px] list-decimal list-inside">
+              <ol className="mt-2 rounded-xl bg-cream border border-line p-4 space-y-2 text-[15px] list-decimal list-inside">
                 {lines.map((l, i) => <li key={i}>{l}</li>)}
               </ol>
             )}

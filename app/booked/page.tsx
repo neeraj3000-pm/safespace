@@ -22,10 +22,10 @@ export default function Booked() {
   return (
     <PageShell className="pb-40 sm:pb-10">
       <div className="text-center fade-up">
-        <div className="mx-auto w-16 h-16 rounded-full bg-mint grid place-items-center" aria-hidden="true">
-          <svg width="30" height="30" viewBox="0 0 30 30"><path d="M8 15.5l4.5 4.5L22 10" stroke="#1F7A78" strokeWidth="3.2" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+        <div className="mx-auto w-16 h-16 rounded-full bg-lime grid place-items-center" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 30 30"><path d="M8 15.5l4.5 4.5L22 10" stroke="#31572C" strokeWidth="3.2" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </div>
-        <h1 className="mt-4 text-3xl font-extrabold">
+        <h1 className="mt-4 text-3xl font-semibold">
           {intro ? "Your free intro call is booked" : session > 1 ? `Session ${session} is booked` : "You're booked in"}
         </h1>
         <p className="mt-1 text-muted">Booking ref {ref} · this is a mock booking</p>
@@ -34,7 +34,7 @@ export default function Booked() {
       <Card className="mt-6 p-5 flex items-center gap-4">
         <Avatar a={e.avatar} name={e.name} size={64} />
         <div>
-          <p className="font-heading font-extrabold text-lg">{e.name}</p>
+          <p className="font-heading font-semibold text-lg">{e.name}</p>
           <p className="text-sm text-muted">{e.credential}</p>
           <p className="mt-1 font-semibold">{slot} · {intro ? "10 min, free" : "50 min"}</p>
         </div>
@@ -48,7 +48,7 @@ export default function Booked() {
                 <b className="font-heading">{handover ? `${first} has your handover summary.` : `${first} has your short summary.`}</b>{" "}
                 <span className="text-muted">You won&apos;t have to start from scratch.</span>
               </p>
-              <Link href={`/expert/brief/${briefId}`} className="shrink-0 font-heading font-bold text-teal underline underline-offset-4 min-h-11 inline-flex items-center">
+              <Link href={`/expert/brief/${briefId}`} className="shrink-0 font-heading font-bold text-forest underline underline-offset-4 min-h-11 inline-flex items-center">
                 See what {first} sees
               </Link>
             </>
@@ -59,9 +59,9 @@ export default function Booked() {
       )}
 
       <Card className="mt-6 p-6">
-        <h2 className="text-xl font-extrabold">What to expect</h2>
+        <h2 className="text-xl font-semibold">What to expect</h2>
         <Timeline current={session} />
-        <p className="mt-6 rounded-2xl bg-mint text-teal-deep font-heading font-bold px-4 py-3">
+        <p className="mt-6 rounded-xl bg-lime text-forest-deep font-heading font-bold px-4 py-3">
           Change takes a few sessions, and that&apos;s normal.
         </p>
         <p className="mt-3 text-sm text-muted">

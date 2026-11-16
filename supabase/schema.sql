@@ -1,4 +1,4 @@
--- Next Step: schema for Supabase (paste into SQL editor and run once).
+-- SafeSpace: schema for Supabase (paste into SQL editor and run once).
 -- Users are anonymous: no auth. All writes come from server routes using the service role key.
 -- NOTE: there is deliberately NO column for the raw free text. It is never stored.
 

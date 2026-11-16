@@ -1,9 +1,11 @@
-export function Logo({ size = 30 }: { size?: number }) {
+export function Logo({ size = 26, light = false }: { size?: number; light?: boolean }) {
+  const c = light ? "#F9FFB2" : "#31572C";
   return (
     <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true">
-      <circle cx="16" cy="16" r="16" fill="#DDF1EE" />
-      <path d="M8 21c3-1 4-4 7-4s4 2 9-1" stroke="#1F7A78" strokeWidth="2.6" fill="none" strokeLinecap="round" />
-      <circle cx="22.5" cy="11" r="3" fill="#E8836B" />
+      {/* two leaves forming a sheltering heart */}
+      <path d="M16 28c-1-6-9-7-11-14-1.5-5 3-9 7-7 2.2 1.1 3.4 3.4 4 6z" fill={c} />
+      <path d="M16 28c1-6 9-7 11-14 1.5-5-3-9-7-7-2.2 1.1-3.4 3.4-4 6z" fill={c} opacity=".78" />
+      <circle cx="16" cy="6" r="2.4" fill={c} />
     </svg>
   );
 }

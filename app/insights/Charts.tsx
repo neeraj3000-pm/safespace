@@ -2,21 +2,21 @@
 import { Bar, BarChart, CartesianGrid, LabelList, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { Insights } from "@/lib/insights";
 
-const TEAL = "#1F7A78";
-const GRID = "#EEE8DE";
-const AXIS = { fontSize: 12, fill: "#5D7276" };
+const TEAL = "#31572C";
+const GRID = "#EDE9D2";
+const AXIS = { fontSize: 12, fill: "#515151" };
 
 function Panel({ title, sub, children, className = "" }: { title: string; sub?: string; children: React.ReactNode; className?: string }) {
   return (
-    <section className={`bg-white rounded-[24px] border border-line/70 p-5 ${className}`}>
-      <h2 className="text-lg font-extrabold">{title}</h2>
+    <section className={`bg-white rounded-[14px] border border-line/70 p-5 ${className}`}>
+      <h2 className="text-lg font-semibold">{title}</h2>
       {sub && <p className="text-sm text-muted">{sub}</p>}
       <div className="mt-4">{children}</div>
     </section>
   );
 }
 
-const tooltipStyle = { borderRadius: 12, border: "1px solid #E7DFD3", fontSize: 13 };
+const tooltipStyle = { borderRadius: 12, border: "1px solid #E3E3E3", fontSize: 13 };
 
 export function InsightsCharts({ d }: { d: Insights }) {
   const top = d.funnel[0].total || 1;
@@ -31,12 +31,12 @@ export function InsightsCharts({ d }: { d: Insights }) {
               <XAxis type="number" tick={AXIS} axisLine={false} tickLine={false} />
               <YAxis type="category" dataKey="step" width={130} tick={AXIS} axisLine={false} tickLine={false} />
               <Tooltip
-                cursor={{ fill: "#DDF1EE", opacity: 0.5 }}
+                cursor={{ fill: "#F9FFB2", opacity: 0.5 }}
                 contentStyle={tooltipStyle}
                 formatter={(v, _n, p) => [`${v} people (${p.payload.pct}%) · ${p.payload.live} live`, "Reached"]}
               />
               <Bar dataKey="total" fill={TEAL} radius={[0, 4, 4, 0]}>
-                <LabelList dataKey="pct" position="right" formatter={(v) => `${v}%`} style={{ fontSize: 12, fill: "#23353A", fontWeight: 700 }} />
+                <LabelList dataKey="pct" position="right" formatter={(v) => `${v}%`} style={{ fontSize: 12, fill: "#132A13", fontWeight: 700 }} />
               </Bar>
             </BarChart>
           </ResponsiveContainer>
@@ -63,9 +63,9 @@ export function InsightsCharts({ d }: { d: Insights }) {
             <BarChart data={d.switchByReason} layout="vertical" margin={{ left: 8, right: 40 }} barCategoryGap={8}>
               <XAxis type="number" hide />
               <YAxis type="category" dataKey="reason" width={150} tick={AXIS} axisLine={false} tickLine={false} />
-              <Tooltip cursor={{ fill: "#DDF1EE", opacity: 0.5 }} contentStyle={tooltipStyle} formatter={(v, _n, p) => [`${v}% (${p.payload.count})`, "Switches"]} />
+              <Tooltip cursor={{ fill: "#F9FFB2", opacity: 0.5 }} contentStyle={tooltipStyle} formatter={(v, _n, p) => [`${v}% (${p.payload.count})`, "Switches"]} />
               <Bar dataKey="pct" fill={TEAL} radius={[0, 4, 4, 0]}>
-                <LabelList dataKey="pct" position="right" formatter={(v) => `${v}%`} style={{ fontSize: 12, fill: "#23353A", fontWeight: 700 }} />
+                <LabelList dataKey="pct" position="right" formatter={(v) => `${v}%`} style={{ fontSize: 12, fill: "#132A13", fontWeight: 700 }} />
               </Bar>
             </BarChart>
           </ResponsiveContainer>
@@ -79,7 +79,7 @@ export function InsightsCharts({ d }: { d: Insights }) {
               <CartesianGrid vertical={false} stroke={GRID} />
               <XAxis dataKey="score" tick={AXIS} axisLine={false} tickLine={false} />
               <YAxis tick={AXIS} axisLine={false} tickLine={false} />
-              <Tooltip cursor={{ fill: "#DDF1EE", opacity: 0.5 }} contentStyle={tooltipStyle} formatter={(v) => [v, "People"]} labelFormatter={(l) => `Score ${l}`} />
+              <Tooltip cursor={{ fill: "#F9FFB2", opacity: 0.5 }} contentStyle={tooltipStyle} formatter={(v) => [v, "People"]} labelFormatter={(l) => `Score ${l}`} />
               <Bar dataKey="count" fill={TEAL} radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>

@@ -12,30 +12,30 @@ export function ExpertCard({
 
   return (
     <Card className="p-5 flex flex-col h-full fade-up">
-      {highlight && <p className="self-start text-xs font-bold uppercase tracking-wide bg-coral/15 text-coral-ink rounded-full px-2.5 py-1 mb-3">{highlight}</p>}
+      {highlight && <p className="self-start text-xs font-bold uppercase tracking-wide bg-accent/15 text-accent-ink rounded-full px-2.5 py-1 mb-3">{highlight}</p>}
       <div className="flex items-start gap-4">
         <button
           type="button"
           onClick={() => { setVideo(true); track("intro_video_clicked", { expertId: e.id }); }}
-          className="relative shrink-0 rounded-[24px]"
+          className="relative shrink-0 rounded-[14px]"
           aria-label={`Play intro video from ${e.name}`}
         >
           <Avatar a={e.avatar} name={e.name} size={80} />
           <span className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-white shadow-soft grid place-items-center" aria-hidden="true">
-            <svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="#1F7A78" /></svg>
+            <svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z" fill="#31572C" /></svg>
           </span>
         </button>
         <div className="min-w-0">
-          <h3 className="text-lg font-extrabold leading-tight">{e.name}</h3>
+          <h3 className="text-lg font-semibold leading-tight">{e.name}</h3>
           <p className="text-sm text-muted">{e.credential} · {e.years_experience} yrs</p>
-          <p className="mt-1 inline-flex items-center gap-1 text-xs font-bold text-teal bg-mint rounded-full px-2 py-0.5">
-            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="6" fill="#1F7A78" /><path d="M3.3 6.2l1.8 1.7 3.6-3.7" stroke="#fff" strokeWidth="1.5" fill="none" /></svg>
+          <p className="mt-1 inline-flex items-center gap-1 text-xs font-bold text-forest bg-lime rounded-full px-2 py-0.5">
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="6" fill="#31572C" /><path d="M3.3 6.2l1.8 1.7 3.6-3.7" stroke="#fff" strokeWidth="1.5" fill="none" /></svg>
             Verified
           </p>
         </div>
       </div>
 
-      <div className={`mt-4 rounded-2xl px-4 py-3 text-[15px] ${e.whySource === "ai" ? "bg-mint/70 text-teal-deep" : "bg-sand/70 text-ink"}`}>
+      <div className={`mt-4 rounded-xl px-4 py-3 text-[15px] ${e.whySource === "ai" ? "bg-lime/70 text-forest-deep" : "bg-sand/70 text-ink"}`}>
         <p className="text-xs font-bold uppercase tracking-wide opacity-80">Why we matched you</p>
         <p className={`mt-0.5 ${pending ? "animate-pulse" : ""}`}>{e.why}</p>
       </div>
@@ -46,7 +46,7 @@ export function ExpertCard({
           <dt className="sr-only">Specialisations</dt>
           <dd className="flex flex-wrap gap-1.5">
             {e.specialisations.map((s) => (
-              <span key={s} className={`text-xs rounded-full px-2 py-1 ${e.overlap?.includes(s) ? "bg-teal text-white" : "bg-cream border border-line"}`}>{s}</span>
+              <span key={s} className={`text-xs rounded-full px-2 py-1 ${e.overlap?.includes(s) ? "bg-forest text-white" : "bg-cream border border-line"}`}>{s}</span>
             ))}
           </dd>
         </div>
@@ -67,7 +67,7 @@ export function ExpertCard({
       </div>
 
       <Modal open={video} onClose={() => setVideo(false)} title={`Meet ${e.name.split(" ")[0]}`}>
-        <div className="aspect-video rounded-2xl bg-mint grid place-items-center">
+        <div className="aspect-video rounded-xl bg-lime grid place-items-center">
           <Avatar a={e.avatar} name={e.name} size={96} />
         </div>
         <p className="mt-4 font-heading font-bold">Intro videos coming soon</p>

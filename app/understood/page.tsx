@@ -57,15 +57,15 @@ export default function Understood() {
 
   return (
     <PageShell className="pb-40 sm:pb-10">
-      <p className="text-sm font-semibold text-teal">Here&apos;s what we understood</p>
+      <p className="text-sm font-semibold text-forest">Here&apos;s what we understood</p>
       <Card className="mt-3 p-6 sm:p-8 fade-up">
         {fallback ? (
           <>
-            <h1 className="text-2xl font-extrabold">We couldn&apos;t fully understand. Please pick what fits.</h1>
+            <h1 className="text-2xl font-semibold">We couldn&apos;t fully understand. Please pick what fits.</h1>
             <p className="mt-2 text-muted">We&apos;ve started with what you tapped. Add or remove anything below.</p>
           </>
         ) : (
-          <h1 className="text-2xl sm:text-[28px] leading-snug font-extrabold">{j.summary}</h1>
+          <h1 className="text-2xl sm:text-[28px] leading-snug font-semibold">{j.summary}</h1>
         )}
 
         <div className="mt-6">
@@ -73,7 +73,7 @@ export default function Understood() {
           <ul className="flex flex-wrap gap-2" aria-label="Topics we picked up">
             {concerns.map((c) => (
               <li key={c}>
-                <span className="inline-flex items-center gap-1 pl-4 pr-1 min-h-11 rounded-full bg-mint text-teal-deep font-semibold">
+                <span className="inline-flex items-center gap-1 pl-4 pr-1 min-h-11 rounded-full bg-lime text-forest-deep font-semibold">
                   {c}
                   <button
                     type="button"
@@ -91,16 +91,16 @@ export default function Understood() {
                 type="button"
                 onClick={() => setPicker(!picker)}
                 aria-expanded={picker}
-                className="min-h-11 px-4 rounded-full border border-dashed border-teal/50 text-teal font-semibold hover:bg-mint/40"
+                className="min-h-11 px-4 rounded-full border border-dashed border-forest/50 text-forest font-semibold hover:bg-lime/40"
               >
                 + Add a topic
               </button>
             </li>
           </ul>
           {picker && (
-            <div className="mt-3 p-3 rounded-2xl bg-cream border border-line flex flex-wrap gap-2">
+            <div className="mt-3 p-3 rounded-xl bg-cream border border-line flex flex-wrap gap-2">
               {available.map((c) => (
-                <button key={c} type="button" onClick={() => add(c)} className="min-h-10 px-3 rounded-full bg-white border border-line text-sm font-semibold hover:border-teal">
+                <button key={c} type="button" onClick={() => add(c)} className="min-h-10 px-3 rounded-full bg-white border border-line text-sm font-semibold hover:border-forest">
                   {c}
                 </button>
               ))}
@@ -109,7 +109,7 @@ export default function Understood() {
           {concerns.length === 0 && <p className="mt-3 text-sm text-muted">No topics yet. That&apos;s okay, add one or continue and we&apos;ll suggest general support.</p>}
         </div>
 
-        <p className="mt-6 text-[15px] text-muted bg-sand/60 rounded-2xl px-4 py-3">
+        <p className="mt-6 text-[15px] text-muted bg-sand/60 rounded-xl px-4 py-3">
           Did we get this right? Edit anything that&apos;s off.
         </p>
       </Card>
