@@ -1,6 +1,6 @@
 import { LinkButton, Eyebrow } from "@/components/ui";
 import { Avatar } from "@/components/Avatar";
-import { Landscape } from "@/components/Landscape";
+import Image from "next/image";
 import { getExperts } from "@/data/experts";
 
 const STEPS = [
@@ -48,8 +48,17 @@ export default function Landing() {
       </section>
 
       <section className="mx-auto max-w-6xl w-full px-4 sm:px-6 mt-8 sm:mt-10">
-        <div className="relative rounded-[16px] overflow-hidden h-[240px] sm:h-[460px]">
-          <Landscape className="absolute inset-0 w-full h-full" />
+        <div className="relative rounded-[16px] overflow-hidden h-[260px] sm:h-[500px]">
+          <Image
+            src="/forest-lake.jpg"
+            alt="Misty pine forest reflected in a still lake"
+            fill
+            priority
+            sizes="(min-width: 1152px) 1104px, 100vw"
+            className="object-cover object-[50%_40%]"
+          />
+          {/* soft cream fade at the top, like the reference hero */}
+          <div className="absolute inset-0 bg-gradient-to-b from-cream via-cream/10 via-35% to-transparent" aria-hidden="true" />
           <div className="hidden md:block absolute left-8 bottom-10 w-72 bg-white/95 backdrop-blur rounded-[12px] p-4 shadow-soft fade-up">
             <p className="text-xs text-muted">Here&apos;s what we understood</p>
             <p className="mt-1 text-[15px] font-semibold leading-snug">It sounds like work pressure is affecting your sleep.</p>
@@ -178,7 +187,13 @@ export default function Landing() {
             <LinkButton href="/start" variant="secondary" className="mt-7 self-start border-lime">Find my next step</LinkButton>
           </div>
           <div className="relative min-h-[220px] md:min-h-[340px] m-3 md:m-4 rounded-[12px] overflow-hidden">
-            <Landscape className="absolute inset-0 w-full h-full" fadeTop={false} tone="dusk" />
+            <Image
+              src="/forest-lake-sm.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 768px) 540px, 100vw"
+              className="object-cover object-[50%_50%]"
+            />
           </div>
         </div>
       </section>
