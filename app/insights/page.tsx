@@ -32,10 +32,23 @@ export default async function Insights() {
           <h2 className="text-lg font-extrabold">AI quality</h2>
           <div className="mt-3 grid grid-cols-2 gap-3">
             <Mini label="Check-ins where people edited the AI's topics" value={pct(d.editedPct)} />
-            <Mini label="Fell back to rules (low confidence / API failure)" value={pct(d.fallbackPct)} />
+            <Mini label="Understanding fell back to rules (low confidence / API failure)" value={pct(d.fallbackPct)} />
+          </div>
+          <h3 className="mt-5 font-heading font-bold">AI re-rank vs fallback</h3>
+          <div className="mt-2 flex h-3 rounded-full overflow-hidden gap-0.5" role="img" aria-label={`AI re-rank ${pct(d.rerankAIPct)}, rule fallback ${pct(1 - d.rerankAIPct)}`}>
+            <div className="bg-teal" style={{ width: pct(d.rerankAIPct) }} />
+            <div className="bg-sand flex-1" />
+          </div>
+          <div className="mt-2 flex justify-between text-sm">
+            <span><b className="font-heading tabular-nums">{pct(d.rerankAIPct)}</b> AI re-rank</span>
+            <span className="text-muted"><b className="font-heading tabular-nums text-ink">{pct(1 - d.rerankAIPct)}</b> rule fallback</span>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <Mini label="of AI re-ranks put a different expert at #1 than the rules did" value={pct(d.changedTop)} />
+            <Mini label="of bookings shared a summary with the expert (consent on)" value={pct(d.briefSharePct)} />
           </div>
           <p className="mt-3 text-sm text-muted">
-            High edit rates on one topic suggest a prompt or taxonomy fix. Fallbacks still give a full journey, just from the person&apos;s own taps.
+            High edit rates on one topic suggest a prompt or taxonomy fix. Fallbacks still give a full journey from rules. Compare &ldquo;felt heard&rdquo; for AI-ranked vs rule-ranked matches before trusting the re-rank more.
           </p>
         </div>
         <div className="bg-white rounded-[24px] border border-line/70 p-5">

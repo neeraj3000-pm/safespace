@@ -6,6 +6,7 @@ import { SessionId } from "@/lib/schemas";
 const ALLOWED = [
   "started", "consent_given", "persona_used", "chip_added", "chip_removed", "help_now_viewed",
   "resource_opened", "intro_video_clicked", "fast_forward", "booked_s2", "secondary_path_opened",
+  "brief_declined", "brief_edited", "brief_viewed_as_expert",
 ] as const;
 
 const Body = z.object({

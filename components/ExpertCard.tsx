@@ -7,10 +7,8 @@ import { track, type ExpertCard as EC } from "@/lib/client";
 
 export function ExpertCard({
   e, onBook, highlight, bookLabel = "Book session", pending,
-}: { e: EC; onBook: (slot: string) => void; highlight?: string; bookLabel?: string; pending?: boolean }) {
+}: { e: EC; onBook: () => void; highlight?: string; bookLabel?: string; pending?: boolean }) {
   const [video, setVideo] = useState(false);
-  const [slotPicker, setSlotPicker] = useState(false);
-  const [slot, setSlot] = useState(e.slots[0]?.label);
 
   return (
     <Card className="p-5 flex flex-col h-full fade-up">
@@ -65,7 +63,7 @@ export function ExpertCard({
       </div>
 
       <div className="mt-auto pt-5">
-        <Button onClick={() => setSlotPicker(true)} className="w-full">{bookLabel}</Button>
+        <Button onClick={onBook} className="w-full">{bookLabel}</Button>
       </div>
 
       <Modal open={video} onClose={() => setVideo(false)} title={`Meet ${e.name.split(" ")[0]}`}>
@@ -77,24 +75,6 @@ export function ExpertCard({
         <p className="text-sm mt-3">{e.bio}</p>
       </Modal>
 
-      <Modal open={slotPicker} onClose={() => setSlotPicker(false)} title={`Pick a time with ${e.name.split(" ")[0]}`}>
-        <div role="radiogroup" aria-label="Available slots" className="grid gap-2">
-          {e.slots.map((s) => (
-            <button
-              key={s.label}
-              type="button"
-              role="radio"
-              aria-checked={slot === s.label}
-              onClick={() => setSlot(s.label)}
-              className={`text-left min-h-12 px-4 rounded-2xl border font-semibold ${slot === s.label ? "bg-mint border-teal" : "bg-white border-line"}`}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-        <p className="mt-3 text-xs text-muted">50-minute video or audio session. You can reschedule anytime.</p>
-        <Button className="w-full mt-4" onClick={() => { setSlotPicker(false); if (slot) onBook(slot); }}>Confirm booking</Button>
-      </Modal>
     </Card>
   );
 }

@@ -62,6 +62,15 @@ export const SWITCH_REASONS = [
 ] as const;
 export type SwitchReason = (typeof SWITCH_REASONS)[number]["id"];
 
+/** Third-person phrasing for briefs and the expert view. */
+export const SWITCH_THIRD: Record<SwitchReason, string> = {
+  connect: "they didn't feel a connection",
+  style: "the previous style didn't suit them",
+  language: "language got in the way",
+  timing: "the timings didn't work",
+  other: "it wasn't quite the right fit",
+};
+
 export type QuickAnswers = {
   language: Language;
   gender: GenderPref;

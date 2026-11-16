@@ -5,7 +5,7 @@ import { Button, Card, PageShell } from "@/components/ui";
 import { Avatar } from "@/components/Avatar";
 import { ExpertCard } from "@/components/ExpertCard";
 import { SWITCH_REASONS, type SwitchReason } from "@/lib/taxonomy";
-import { api, loadJourney, saveJourney, type Journey, type ExpertCard as EC } from "@/lib/client";
+import { api, loadJourney, memoryText, saveJourney, SafetyBlock, type Journey, type ExpertCard as EC } from "@/lib/client";
 
 const FACES = [
   { v: 1, f: "😞", l: "Not at all" },
@@ -54,10 +54,18 @@ export default function Feedback() {
   async function findSwitch() {
     if (!reason) return;
     setBusy(true);
-    const res = await api<{ next: EC | null }>("/api/feedback", {
-      checkinId: j!.checkinId, expertId: e.id, feltHeard: score, switchReason: reason,
-      concerns: j!.concerns ?? [], answers: j!.answers, excludeIds: j!.excludeIds ?? [],
-    });
+    let res: { next: EC | null };
+    try {
+      res = await api<{ next: EC | null }>("/api/feedback", {
+        checkinId: j!.checkinId, expertId: e.id, feltHeard: score, switchReason: reason,
+        concerns: j!.concerns ?? [], answers: j!.answers, excludeIds: j!.excludeIds ?? [],
+        text: memoryText.get(), summary: j!.summary ?? null,
+      });
+    } catch (err) {
+      if (err instanceof SafetyBlock) return router.push("/help-now?from=check-in");
+      setBusy(false);
+      return;
+    }
     setBusy(false);
     setNext(res.next);
     saveJourney({ excludeIds: [...(j!.excludeIds ?? []), e.id], switchedFrom: e.id });
@@ -71,10 +79,10 @@ export default function Feedback() {
     setPhase("high");
   }
 
-  async function bookNew(ex: EC, slot: string, intro: boolean) {
-    const res = await api<{ bookingRef: string }>("/api/book", { checkinId: j!.checkinId, expertId: ex.id, slot, session: 1, intro });
-    saveJourney({ booking: { expert: ex, slot, ref: res.bookingRef, session: 1, intro } });
-    router.push("/booked");
+  // Both options go through the booking screen, where the handover brief (with the switch reason) is shown for consent.
+  function bookNew(ex: EC, intro: boolean) {
+    saveJourney({ pendingBooking: { expert: ex, intro, switchReason: reason ?? undefined } });
+    router.push("/book");
   }
 
   return (
@@ -154,15 +162,18 @@ export default function Feedback() {
             We took &ldquo;{SWITCH_REASONS.find((r) => r.id === reason)?.label.toLowerCase()}&rdquo; into account
             {reason === "style" && ` and looked for someone with a ${e.style === "listener" ? "more practical" : "more listening"} style`}.
           </p>
+          <p className="mt-3 rounded-2xl bg-mint text-teal-deep px-4 py-3 font-semibold">
+            Your new expert will know what you&apos;ve shared, so you won&apos;t start over.
+          </p>
           {next ? (
             <div className="mt-6 grid md:grid-cols-[1fr_1fr] gap-5 items-start">
-              <ExpertCard e={next} highlight="Your next best match" bookLabel="Book a full session" onBook={(s) => bookNew(next, s, false)} />
+              <ExpertCard e={next} highlight="Your next best match" bookLabel="Book a full session" onBook={() => bookNew(next, false)} />
               <div className="p-6 rounded-[24px] bg-mint">
                 <p className="text-xs font-bold uppercase tracking-wide text-teal">On us</p>
                 <h2 className="mt-1 text-2xl font-extrabold text-teal-deep">Try a free 10-minute intro call first</h2>
                 <p className="mt-2 text-teal-deep/80">A quick hello with {next.name.split(" ")[0]} to see if it clicks, before committing to a full session.</p>
-                <Button className="mt-5 w-full" onClick={() => bookNew(next, next.slots[0].label, true)}>
-                  Book free intro call · {next.slots[0].label}
+                <Button className="mt-5 w-full" onClick={() => bookNew(next, true)}>
+                  Book a free intro call
                 </Button>
               </div>
             </div>

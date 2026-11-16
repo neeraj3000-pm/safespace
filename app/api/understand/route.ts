@@ -77,6 +77,8 @@ export async function POST(req: Request) {
   return NextResponse.json({
     route: "understood",
     checkinId,
+    // Scrubbed text goes back to the browser's memory (never storage) so /api/rerank can use it.
+    cleanedText: text,
     concerns,
     aiConcerns: useFallback ? [] : concerns,
     intensity,

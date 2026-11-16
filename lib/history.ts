@@ -12,6 +12,9 @@ export type HistoryRow = {
   edited_chips: boolean;
   used_fallback: boolean;
   risk_layer: "rules" | "ai" | null;
+  rerank: "ai" | "fallback" | null; // set when expert cards were shown
+  rerank_changed_top: boolean | null; // AI re-rank moved a different expert into #1
+  brief_shared: boolean | null; // set when a session was booked
 };
 
 export const FUNNEL = ["started", "checkin_done", "next_step_shown", "booked", "feedback_s1", "booked_s2"] as const;
@@ -35,6 +38,9 @@ export function generateHistory(n = 420): HistoryRow[] {
     let sw: string | null = null;
     let s4: boolean | null = null;
     let risk: HistoryRow["risk_layer"] = null;
+    let rerank: HistoryRow["rerank"] = null;
+    let changedTop: boolean | null = null;
+    let briefShared: boolean | null = null;
     const edited = r() < 0.27;
     const fallback = r() < 0.06;
 
@@ -46,10 +52,15 @@ export function generateHistory(n = 420): HistoryRow[] {
       if (!risk) {
         reached.push("next_step_shown");
         path = r() < 0.68 ? "A" : "B";
+        if (path === "A" || r() < 0.35) {
+          rerank = r() < 0.91 ? "ai" : "fallback";
+          if (rerank === "ai") changedTop = r() < 0.34;
+        }
         // self-help users sometimes book later from the secondary option
         const bookP = path === "A" ? 0.62 : 0.18;
         if (r() < bookP) {
           reached.push("booked");
+          briefShared = r() < 0.78;
           if (r() < 0.82) {
             reached.push("feedback_s1");
             const x = r();
@@ -66,7 +77,7 @@ export function generateHistory(n = 420): HistoryRow[] {
         }
       }
     }
-    rows.push({ id: `h${i}`, created_at: created, reached, path, felt_heard: felt, switch_reason: sw, same_expert_s4: s4, edited_chips: edited, used_fallback: fallback, risk_layer: risk });
+    rows.push({ id: `h${i}`, created_at: created, reached, path, felt_heard: felt, switch_reason: sw, same_expert_s4: s4, edited_chips: edited, used_fallback: fallback, risk_layer: risk, rerank, rerank_changed_top: changedTop, brief_shared: briefShared });
   }
   return rows;
 }

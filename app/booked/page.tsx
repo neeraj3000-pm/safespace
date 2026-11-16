@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button, Card, PageShell, StickyCTA } from "@/components/ui";
 import { Avatar } from "@/components/Avatar";
 import { Timeline } from "@/components/Timeline";
@@ -15,7 +16,7 @@ export default function Booked() {
     setJ(jj);
   }, [router]);
   if (!j?.booking) return null;
-  const { expert: e, slot, ref, session, intro } = j.booking;
+  const { expert: e, slot, ref, session, intro, briefId, handover } = j.booking;
   const first = e.name.split(" ")[0];
 
   return (
@@ -38,6 +39,24 @@ export default function Booked() {
           <p className="mt-1 font-semibold">{slot} · {intro ? "10 min, free" : "50 min"}</p>
         </div>
       </Card>
+
+      {session === 1 && (
+        <Card className="mt-4 p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
+          {briefId ? (
+            <>
+              <p className="text-[15px]">
+                <b className="font-heading">{handover ? `${first} has your handover summary.` : `${first} has your short summary.`}</b>{" "}
+                <span className="text-muted">You won&apos;t have to start from scratch.</span>
+              </p>
+              <Link href={`/expert/brief/${briefId}`} className="shrink-0 font-heading font-bold text-teal underline underline-offset-4 min-h-11 inline-flex items-center">
+                See what {first} sees
+              </Link>
+            </>
+          ) : (
+            <p className="text-[15px] text-muted">You chose not to share a summary. That&apos;s completely fine: {first} will start fresh with you.</p>
+          )}
+        </Card>
+      )}
 
       <Card className="mt-6 p-6">
         <h2 className="text-xl font-extrabold">What to expect</h2>

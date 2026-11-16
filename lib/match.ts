@@ -18,6 +18,8 @@ export type MatchInput = {
   excludeIds?: string[];
   switchReason?: SwitchReason;
   previousExpert?: Expert;
+  /** How many to return. Rules shortlist 6 for the AI re-rank; the final 3 come from /api/rerank. */
+  limit?: number;
 };
 
 export type ScoredExpert = {
@@ -92,7 +94,7 @@ export function matchExperts(experts: Expert[], input: MatchInput): MatchResult 
   });
 
   scored.sort((a, b) => b.score - a.score);
-  return { matches: scored.slice(0, 3), relaxed: relaxed.filter((r) => switchReason !== "timing" || r !== "time") };
+  return { matches: scored.slice(0, input.limit ?? 3), relaxed: relaxed.filter((r) => switchReason !== "timing" || r !== "time") };
 }
 
 export function recommendResources<T extends { concerns: Concern[] }>(resources: T[], concerns: Concern[], n = 3): T[] {

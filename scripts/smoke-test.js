@@ -41,8 +41,21 @@ const errors = [];
     await page.getByRole('button', { name: /show my next step/ }).click();
     await page.waitForURL(/next-step/); await page.waitForTimeout(1500); await shot('nextstep-riya');
     await page.getByRole('button', { name: 'Book session' }).first().click();
+    await page.waitForURL(/\/book$/);
+    await page.getByRole('switch').waitFor();
+    if ((await page.getByRole('switch').getAttribute('aria-checked')) !== 'true') errors.push(label + ': consent toggle not on by default');
+    await page.getByRole('button', { name: 'Edit' }).click();
+    await page.locator('textarea').first().fill('They would like to talk about exam stress and late-night worry.');
+    await page.getByRole('button', { name: 'Done' }).click();
+    await shot('book');
     await page.getByRole('button', { name: 'Confirm booking' }).click();
     await page.waitForURL(/booked/); await shot('booked');
+    await page.getByRole('link', { name: /See what .* sees/ }).click();
+    await page.waitForURL(/expert\/brief/);
+    await page.getByText('Expert view (demo)').waitFor();
+    if (!(await page.getByText('late-night worry').count())) errors.push(label + ': edited brief not shown in expert view');
+    await shot('expert-view');
+    await page.goBack(); await page.waitForURL(/booked/);
     await page.getByRole('button', { name: /Fast-forward/ }).click();
     await page.waitForURL(/feedback/); await shot('feedback');
     await page.getByRole('radio', { name: /2: Not really/ }).click();
@@ -52,7 +65,14 @@ const errors = [];
     await page.getByRole('button', { name: 'Find me a better fit' }).click();
     await page.getByText("Here's who we'd suggest next").waitFor(); await shot('switch-next');
     await page.getByRole('button', { name: /free intro call/ }).click();
+    await page.waitForURL(/\/book$/);
+    await page.getByText("Your new expert will know what you've shared").waitFor();
+    await page.getByText('Exactly what').waitFor();
+    await page.waitForTimeout(800); await shot('book-handover');
+    await page.getByRole('button', { name: 'Confirm free intro call' }).click();
     await page.waitForURL(/booked/); await shot('booked-intro');
+    await page.getByRole('link', { name: /See what .* sees/ }).click();
+    await page.getByText('Handover from another expert').waitFor(); await shot('expert-view-handover');
 
     // Arjun: edit a chip
     await persona('Arjun');
@@ -62,7 +82,14 @@ const errors = [];
     await page.getByRole('button', { name: 'sleep', exact: true }).click();
     await shot('understood-arjun');
     await page.getByRole('button', { name: /show my next step/ }).click();
-    await page.waitForURL(/next-step/); await page.waitForTimeout(1500); await shot('nextstep-arjun');
+    await page.waitForURL(/next-step/); await page.getByRole('button', { name: 'Book session' }).first().waitFor(); await shot('nextstep-arjun');
+    // Opt out of sharing: booking still works and nothing is shared.
+    await page.getByRole('button', { name: 'Book session' }).first().click();
+    await page.waitForURL(/\/book$/);
+    await page.getByRole('switch').click();
+    await page.getByRole('button', { name: 'Confirm booking' }).click();
+    await page.waitForURL(/booked/);
+    await page.getByText('You chose not to share a summary').waitFor();
 
     // Crisis
     await persona('Crisis');

@@ -8,13 +8,13 @@ import {
   type Concern, type QuickAnswers, DEFAULT_ANSWERS,
 } from "@/lib/taxonomy";
 import { PERSONAS } from "@/lib/personas";
-import { api, loadJourney, saveJourney } from "@/lib/client";
+import { api, loadJourney, memoryText, saveJourney } from "@/lib/client";
 
 const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
 
 type UnderstandRes =
   | { route: "help-now"; layer: string; checkinId: string }
-  | { route: "understood"; checkinId: string; concerns: Concern[]; aiConcerns: Concern[]; intensity: "low" | "moderate" | "high"; summary: string | null; usedFallback: boolean };
+  | { route: "understood"; checkinId: string; cleanedText: string; concerns: Concern[]; aiConcerns: Concern[]; intensity: "low" | "moderate" | "high"; summary: string | null; usedFallback: boolean };
 
 export default function CheckIn() {
   const router = useRouter();
@@ -54,9 +54,11 @@ export default function CheckIn() {
       ]);
       if (res.route === "help-now") {
         saveJourney({ checkinId: res.checkinId });
+        memoryText.set("");
         router.push("/help-now?from=check-in");
         return;
       }
+      memoryText.set(res.cleanedText);
       saveJourney({
         checkinId: res.checkinId,
         concerns: res.concerns,

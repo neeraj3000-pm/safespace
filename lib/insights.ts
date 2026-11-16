@@ -70,6 +70,25 @@ export async function computeInsights() {
     (histCheckins.filter((r) => r.used_fallback).length + liveCheckins.filter((c) => c.used_fallback).length) /
     Math.max(histCheckins.length + liveCheckins.length, 1);
 
+  // AI re-rank vs fallback (synthetic + live events).
+  const histRerank = history.filter((r) => r.rerank);
+  const liveRerankAI = events.filter((e) => e.name === "rerank_used");
+  const liveRerankFb = events.filter((e) => e.name === "rerank_fallback").length;
+  const rerankAI = histRerank.filter((r) => r.rerank === "ai").length + liveRerankAI.length;
+  const rerankTotal = histRerank.length + liveRerankAI.length + liveRerankFb;
+  const rerankAIPct = rerankAI / Math.max(rerankTotal, 1);
+  const changedTop =
+    (histRerank.filter((r) => r.rerank_changed_top).length + liveRerankAI.filter((e) => e.props?.changedTop === true).length) /
+    Math.max(rerankAI, 1);
+
+  // Expert brief consent (synthetic + live).
+  const histBooked = history.filter((r) => r.brief_shared !== null);
+  const liveShared = events.filter((e) => e.name === "brief_shared").length;
+  const liveDeclined = events.filter((e) => e.name === "brief_declined").length;
+  const briefSharePct =
+    (histBooked.filter((r) => r.brief_shared).length + liveShared) / Math.max(histBooked.length + liveShared + liveDeclined, 1);
+  const handovers = events.filter((e) => e.name === "brief_shared" && e.props?.handover === true).length;
+
   // Safety.
   const flaggedRules = history.filter((r) => r.risk_layer === "rules").length + checkins.filter((c) => c.risk_layer === "rules").length;
   const flaggedAI = history.filter((r) => r.risk_layer === "ai").length + checkins.filter((c) => c.risk_layer === "ai").length;
@@ -86,6 +105,11 @@ export async function computeInsights() {
     s2Rate,
     northStarTrend,
     editedPct,
+    rerankAIPct,
+    rerankTotal,
+    changedTop,
+    briefSharePct,
+    handovers,
     fallbackPct,
     safety: [
       { layer: "Rule list (AI never called)", count: flaggedRules },

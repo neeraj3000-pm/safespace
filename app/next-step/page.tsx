@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button, Card, PageShell } from "@/components/ui";
 import { ExpertCard } from "@/components/ExpertCard";
-import { api, loadJourney, saveJourney, track, type Journey, type ExpertCard as EC, type ResourceCard } from "@/lib/client";
+import { api, loadJourney, memoryText, saveJourney, SafetyBlock, track, type Journey, type ExpertCard as EC, type ResourceCard } from "@/lib/client";
 
 const RELAX_COPY: Record<string, string> = {
   time: "your preferred time",
@@ -16,7 +16,7 @@ const TYPE_ICON: Record<string, string> = { exercise: "🌿", quiz: "📝", prog
 export default function NextStep() {
   const router = useRouter();
   const [j, setJ] = useState<Journey | null>(null);
-  const [explaining, setExplaining] = useState(false);
+  const attempted = useRef(false);
   const [showSecondary, setShowSecondary] = useState(false);
   const [openedRes, setOpenedRes] = useState<string | null>(null);
 
@@ -24,28 +24,31 @@ export default function NextStep() {
     const jj = loadJourney();
     if (!jj.nextStep) return router.replace("/start");
     setJ(jj);
-    if (!jj.nextStep.explained && jj.nextStep.experts.length) {
-      setExplaining(true);
-      api<{ lines: Record<string, string>; source: Record<string, "ai" | "template"> }>("/api/explain", {
-        concerns: jj.concerns ?? [], answers: jj.answers, expertIds: jj.nextStep.experts.map((e) => e.id),
-      })
-        .then((res) => {
-          const experts = jj.nextStep!.experts.map((e) => ({ ...e, why: res.lines[e.id] ?? e.why, whySource: res.source[e.id] ?? e.whySource }));
-          const updated = saveJourney({ nextStep: { ...jj.nextStep!, experts, explained: true } });
-          setJ(updated);
-        })
-        .catch(() => {})
-        .finally(() => setExplaining(false));
-    }
   }, [router]);
+
+  // Rules shortlist (top 6) → AI re-rank picks + orders 3, with reasons. Runs only when experts are shown.
+  const needExperts = !!j?.nextStep && (j.nextStep.path.primary === "A" || showSecondary);
+  useEffect(() => {
+    if (!needExperts || !j?.nextStep || j.nextStep.reranked || attempted.current) return;
+    attempted.current = true;
+    api<{ experts: EC[]; relaxed: string[]; source: "ai" | "fallback" }>("/api/rerank", {
+      checkinId: j.checkinId, text: memoryText.get(), summary: j.summary ?? null, concerns: j.concerns ?? [], answers: j.answers,
+    })
+      .then((res) => {
+        setJ(saveJourney({ nextStep: { ...j.nextStep!, experts: res.experts, relaxed: res.relaxed, reranked: true, rerankSource: res.source } }));
+      })
+      .catch((err) => {
+        if (err instanceof SafetyBlock) return router.push("/help-now?from=check-in");
+        setJ(saveJourney({ nextStep: { ...j.nextStep!, experts: [], reranked: true, rerankSource: "fallback" } }));
+      });
+  }, [needExperts, j, router]);
 
   if (!j?.nextStep) return null;
   const ns = j.nextStep;
 
-  async function book(e: EC, slot: string) {
-    const res = await api<{ bookingRef: string }>("/api/book", { checkinId: j!.checkinId, expertId: e.id, slot, session: 1 });
-    saveJourney({ booking: { expert: e, slot, ref: res.bookingRef, session: 1 } });
-    router.push("/booked");
+  function book(e: EC) {
+    saveJourney({ pendingBooking: { expert: e } });
+    router.push("/book");
   }
 
   const expertsBlock = (
@@ -56,14 +59,33 @@ export default function NextStep() {
           We couldn&apos;t find three experts matching everything, so we relaxed {ns.relaxed.map((r) => RELAX_COPY[r]).join(" and ")}.
         </p>
       )}
-      <div className="grid gap-4 md:grid-cols-3">
-        {ns.experts.map((e, i) => (
-          <ExpertCard key={e.id} e={e} pending={explaining} highlight={i === 0 ? "Best match" : undefined} onBook={(s) => book(e, s)} />
-        ))}
-      </div>
-      <p className="mt-3 text-xs text-muted">
-        Matched by rules (language, gender, topic, time, then a weighted score). The &ldquo;why&rdquo; line is written by AI from each expert&apos;s profile only.
-      </p>
+      {!ns.reranked ? (
+        <div className="grid gap-4 md:grid-cols-3" role="status" aria-live="polite">
+          <span className="sr-only">Finding the best fit for you…</span>
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="rounded-[24px] bg-white border border-line/70 p-5 h-[420px] animate-pulse">
+              <div className="flex gap-4"><div className="w-20 h-20 rounded-[24px] bg-sand" /><div className="flex-1 space-y-2 pt-2"><div className="h-4 bg-sand rounded w-2/3" /><div className="h-3 bg-sand/70 rounded w-1/2" /></div></div>
+              <div className="mt-5 h-16 rounded-2xl bg-mint/60" />
+              <div className="mt-4 space-y-2"><div className="h-3 bg-sand/70 rounded" /><div className="h-3 bg-sand/70 rounded w-4/5" /></div>
+            </div>
+          ))}
+        </div>
+      ) : ns.experts.length === 0 ? (
+        <Card className="p-6">We couldn&apos;t find an expert who fits right now. The YourDOST care team can help you find someone.</Card>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-3">
+          {ns.experts.map((e, i) => (
+            <ExpertCard key={e.id} e={e} highlight={i === 0 ? "Best match" : undefined} onBook={() => book(e)} />
+          ))}
+        </div>
+      )}
+      {ns.reranked && (
+        <p className="mt-3 text-xs text-muted">
+          {ns.rerankSource === "ai"
+            ? "Rules shortlisted experts who fit your language, gender, topic and time. AI then picked and ordered these three, and wrote each reason from the expert's profile only."
+            : "Matched by rules (language, gender, topic, time, then a weighted score)."}
+        </p>
+      )}
     </section>
   );
 

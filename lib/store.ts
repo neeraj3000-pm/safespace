@@ -22,13 +22,26 @@ export type CheckinRow = {
 };
 export type MatchRow = { checkin_id: string; expert_ids: string[]; chosen_expert_id: string | null };
 export type FeedbackRow = { checkin_id: string; expert_id: string; felt_heard: number; switch_reason: string | null; created_at?: string };
+export type BriefRow = {
+  id: string;
+  checkin_id: string;
+  expert_id: string;
+  lines: string[];
+  source: "ai" | "template";
+  edited: boolean;
+  switch_reason: string | null;
+  slot: string | null;
+  intro: boolean;
+  created_at: string;
+};
 export type EventRow = { session_id: string; name: string; props: Record<string, unknown>; created_at?: string };
 
 const g = globalThis as unknown as {
-  __mem?: { checkins: CheckinRow[]; matches: MatchRow[]; feedback: FeedbackRow[]; events: EventRow[] };
+  __mem?: { checkins: CheckinRow[]; matches: MatchRow[]; feedback: FeedbackRow[]; events: EventRow[]; briefs: BriefRow[] };
   __dbOk?: boolean;
 };
-const mem = (g.__mem ??= { checkins: [], matches: [], feedback: [], events: [] });
+const mem = (g.__mem ??= { checkins: [], matches: [], feedback: [], events: [], briefs: [] });
+mem.briefs ??= [];
 
 function db() {
   if (g.__dbOk === false) return null;
@@ -71,8 +84,45 @@ export const store = {
     if (r) Object.assign(r, patch);
   },
 
+  async getCheckin(id: string): Promise<CheckinRow | null> {
+    const c = db();
+    if (c) {
+      const { data, error } = await c.from("checkins").select("*").eq("id", id).maybeSingle();
+      if (!error) return (data as CheckinRow) ?? null;
+      markDbDown(error);
+    }
+    return mem.checkins.find((x) => x.id === id) ?? null;
+  },
+
+  /** Brief shared with an expert (with consent). Contains no raw text and no personal details. */
+  async saveBrief(row: Omit<BriefRow, "id" | "created_at">): Promise<string> {
+    const full: BriefRow = { ...row, id: randomUUID(), created_at: new Date().toISOString() };
+    await insert("briefs", full, mem.briefs);
+    return full.id;
+  },
+
+  async getBrief(id: string): Promise<BriefRow | null> {
+    const c = db();
+    if (c) {
+      const { data, error } = await c.from("briefs").select("*").eq("id", id).maybeSingle();
+      if (!error) return (data as BriefRow) ?? null;
+      markDbDown(error);
+    }
+    return mem.briefs.find((b) => b.id === id) ?? null;
+  },
+
   async saveMatch(row: MatchRow) {
     await insert("matches", row, mem.matches);
+  },
+
+  async updateMatchExperts(checkinId: string, expertIds: string[]) {
+    const c = db();
+    if (c) {
+      const { error } = await c.from("matches").update({ expert_ids: expertIds }).eq("checkin_id", checkinId);
+      if (!error) return;
+      markDbDown(error);
+    }
+    mem.matches.filter((m) => m.checkin_id === checkinId).forEach((m) => (m.expert_ids = expertIds));
   },
 
   async chooseExpert(checkinId: string, expertId: string) {

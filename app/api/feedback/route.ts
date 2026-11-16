@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { store } from "@/lib/store";
-import { matchExperts } from "@/lib/match";
-import { explain } from "@/lib/ai";
-import { getExperts } from "@/data/experts";
+import { rankExperts } from "@/lib/rerankFlow";
+import { safetyGate, BLOCKED } from "@/lib/guard";
 import { AnswersSchema, ConcernList, SessionId } from "@/lib/schemas";
-import { SWITCH_REASONS } from "@/lib/taxonomy";
+import { SWITCH_REASONS, type SwitchReason } from "@/lib/taxonomy";
 
 const Body = z.object({
   sessionId: SessionId,
@@ -16,12 +15,14 @@ const Body = z.object({
   concerns: ConcernList,
   answers: AnswersSchema,
   excludeIds: z.array(z.string()).default([]),
+  text: z.string().max(2000).default(""), // scrubbed text from browser memory, if still present
+  summary: z.string().max(300).nullable().default(null),
 });
 
 export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "Invalid input" }, { status: 400 });
-  const { sessionId, checkinId, expertId, feltHeard, switchReason, concerns, answers, excludeIds } = parsed.data;
+  const { sessionId, checkinId, expertId, feltHeard, switchReason, concerns, answers, excludeIds, text, summary } = parsed.data;
 
   if (!switchReason) {
     await store.saveFeedback({ checkin_id: checkinId, expert_id: expertId, felt_heard: feltHeard, switch_reason: null });
@@ -33,20 +34,15 @@ export async function POST(req: Request) {
   await store.saveFeedback({ checkin_id: checkinId, expert_id: expertId, felt_heard: feltHeard, switch_reason: switchReason });
   await store.logEvent(sessionId, "switch_requested", { checkinId, expertId, reason: switchReason });
 
-  const experts = getExperts();
-  const previous = experts.find((e) => e.id === expertId);
-  const { matches, relaxed } = matchExperts(experts, {
-    concerns, answers,
+  // Safety first: no AI re-rank for flagged users.
+  if ((await safetyGate(sessionId, checkinId, [text])).blocked) return NextResponse.json(BLOCKED, { status: 403 });
+
+  const res = await rankExperts({
+    sessionId, checkinId, text, summary, concerns, answers,
     excludeIds: Array.from(new Set([expertId, ...excludeIds])),
-    switchReason: switchReason as never,
-    previousExpert: previous,
+    switchReason: switchReason as SwitchReason,
+    previousExpertId: expertId,
+    count: 1,
   });
-  const next = matches[0];
-  if (!next) return NextResponse.json({ ok: true, next: null });
-  const ex = await explain({ concerns, answers, experts: [next.expert] });
-  return NextResponse.json({
-    ok: true,
-    relaxed,
-    next: { ...next.expert, overlap: next.overlap, why: ex.lines[next.expert.id], whySource: ex.source[next.expert.id] },
-  });
+  return NextResponse.json({ ok: true, relaxed: res.relaxed, rerank: res.source, next: res.experts[0] ?? null });
 }

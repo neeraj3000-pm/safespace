@@ -78,8 +78,30 @@ create table if not exists history_sessions (
   same_expert_s4 boolean,
   edited_chips boolean not null,
   used_fallback boolean not null,
-  risk_layer text
+  risk_layer text,
+  rerank text,                      -- 'ai' | 'fallback' | null
+  rerank_changed_top boolean,
+  brief_shared boolean
 );
+
+-- Briefs shared with an expert (only with consent). No raw text, no personal details.
+create table if not exists briefs (
+  id uuid primary key,
+  checkin_id uuid references checkins(id) on delete cascade,
+  expert_id text not null,
+  lines text[] not null,
+  source text not null,             -- 'ai' | 'template'
+  edited boolean not null default false,
+  switch_reason text,               -- set on a switch handover
+  slot text,
+  intro boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+-- Safe to re-run on an older schema.
+alter table history_sessions add column if not exists rerank text;
+alter table history_sessions add column if not exists rerank_changed_top boolean;
+alter table history_sessions add column if not exists brief_shared boolean;
 
 create index if not exists events_name_idx on events(name);
 create index if not exists checkins_created_idx on checkins(created_at);
@@ -92,3 +114,4 @@ alter table matches enable row level security;
 alter table feedback enable row level security;
 alter table events enable row level security;
 alter table history_sessions enable row level security;
+alter table briefs enable row level security;

@@ -4,7 +4,6 @@ import { choosePath } from "@/lib/route";
 import { matchExperts, recommendResources } from "@/lib/match";
 import { getExperts } from "@/data/experts";
 import { RESOURCES } from "@/data/resources";
-import { templateLine } from "@/lib/ai";
 import { store } from "@/lib/store";
 import { AnswersSchema, ConcernList, SessionId } from "@/lib/schemas";
 
@@ -24,11 +23,12 @@ export async function POST(req: Request) {
 
   const path = choosePath({ intensity, readiness: answers.readiness, riskFlag: false });
   const experts = getExperts();
-  const { matches, relaxed } = matchExperts(experts, { concerns, answers });
+  // Rule shortlist only; the final 3 + reasons come from /api/rerank (AI, with rule fallback).
+  const { matches, relaxed } = matchExperts(experts, { concerns, answers, limit: 6 });
   const resources = recommendResources(RESOURCES, concerns, 3);
 
   await store.updateCheckin(checkinId, { chips: concerns, path: path.primary });
-  await store.saveMatch({ checkin_id: checkinId, expert_ids: matches.map((m) => m.expert.id), chosen_expert_id: null });
+  await store.saveMatch({ checkin_id: checkinId, expert_ids: matches.slice(0, 3).map((m) => m.expert.id), chosen_expert_id: null });
   await store.logEvent(sessionId, "next_step_shown", {
     checkinId, path: path.primary, rule: path.rule, relaxed,
     chipsEdited: edits.added.length + edits.removed.length > 0,
@@ -37,13 +37,8 @@ export async function POST(req: Request) {
   return NextResponse.json({
     path,
     relaxed,
-    experts: matches.map((m) => ({
-      ...m.expert,
-      score: m.score,
-      overlap: m.overlap,
-      why: templateLine(m.expert, concerns, answers.language), // replaced by /api/explain
-      whySource: "template",
-    })),
+    experts: [], // filled by /api/rerank
+    shortlistSize: matches.length,
     resources: resources.map((r) => ({
       ...r,
       reason: `Picked because you mentioned ${r.concerns.find((c) => concerns.includes(c)) ?? "wanting to feel better"}.`,
