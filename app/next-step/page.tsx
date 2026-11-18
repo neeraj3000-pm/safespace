@@ -1,4 +1,5 @@
 "use client";
+import { AIBadge } from "@/components/AIBadge";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -71,7 +72,7 @@ export default function NextStep() {
           ))}
         </div>
       ) : ns.experts.length === 0 ? (
-        <Card className="p-6">We couldn&apos;t find an expert who fits right now. The YourDOST care team can help you find someone.</Card>
+        <Card className="p-6">We couldn&apos;t find an expert who fits right now. The care team can help you find someone.</Card>
       ) : (
         <div className="grid gap-4 md:grid-cols-3">
           {ns.experts.map((e, i) => (
@@ -80,10 +81,18 @@ export default function NextStep() {
         </div>
       )}
       {ns.reranked && (
-        <p className="mt-3 text-xs text-muted">
-          {ns.rerankSource === "ai"
-            ? "Rules shortlisted experts who fit your language, gender, topic and time. AI then picked and ordered these three, and wrote each reason from the expert's profile only."
-            : "Matched by rules (language, gender, topic, time, then a weighted score)."}
+        <p className="mt-3 text-xs text-muted flex flex-wrap items-center gap-2">
+          {ns.rerankSource === "ai" ? (
+            <>
+              <AIBadge label="Ranked by Claude" />
+              Rules shortlisted experts who fit your language, gender, topic and time. Claude picked and ordered these three, and wrote each reason from the expert&apos;s profile only.
+            </>
+          ) : (
+            <>
+              <AIBadge source="fallback" />
+              Matched by rules (language, gender, topic, time, then a weighted score).
+            </>
+          )}
         </p>
       )}
     </section>

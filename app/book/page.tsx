@@ -1,4 +1,5 @@
 "use client";
+import { AIBadge } from "@/components/AIBadge";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Card, PageShell, StickyCTA } from "@/components/ui";
@@ -183,7 +184,12 @@ export default function Book() {
                 {lines.map((l, i) => <li key={i}>{l}</li>)}
               </ol>
             )}
-            {draft && <p className="mt-2 text-xs text-muted">{draft.source === "ai" ? "Drafted by AI from your topics and preferences." : "Drafted from your topics and preferences."}{edited ? " Edited by you." : ""}</p>}
+            {draft && (
+              <p className="mt-2 text-xs text-muted flex flex-wrap items-center gap-2">
+                {draft.source === "ai" ? <AIBadge label="Drafted by Claude" /> : <AIBadge source="fallback" label="Template" />}
+                From your topics and preferences only.{edited ? " Edited by you." : ""}
+              </p>
+            )}
           </div>
         )}
       </Card>

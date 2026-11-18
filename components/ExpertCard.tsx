@@ -1,4 +1,5 @@
 "use client";
+import { AIBadge } from "./AIBadge";
 import { useState } from "react";
 import { Avatar } from "./Avatar";
 import { Button, Card } from "./ui";
@@ -36,7 +37,10 @@ export function ExpertCard({
       </div>
 
       <div className={`mt-4 rounded-xl px-4 py-3 text-[15px] ${e.whySource === "ai" ? "bg-lime/70 text-forest-deep" : "bg-sand/70 text-ink"}`}>
-        <p className="text-xs font-bold uppercase tracking-wide opacity-80">Why we matched you</p>
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs font-bold uppercase tracking-wide opacity-80">Why we matched you</p>
+          {e.whySource === "ai" && <AIBadge />}
+        </div>
         <p className={`mt-0.5 ${pending ? "animate-pulse" : ""}`}>{e.why}</p>
       </div>
 

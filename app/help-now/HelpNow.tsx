@@ -31,7 +31,7 @@ export default function HelpNow() {
             onClick={() => setCalling(true)}
             className="w-full text-left rounded-[14px] bg-white text-forest-deep p-5 min-h-16 hover:bg-lime transition-colors"
           >
-            <span className="block font-heading font-semibold text-xl">Talk to a YourDOST expert now</span>
+            <span className="block font-heading font-semibold text-xl">Talk to an on-call expert now</span>
             <span className="block text-sm opacity-80">Available 24x7 · usually connects in under 2 minutes</span>
           </button>
 
@@ -54,7 +54,7 @@ export default function HelpNow() {
 
       <Modal open={calling} onClose={() => setCalling(false)} title="Connecting you…">
         <p className="text-muted">This is a prototype, so no call is placed.</p>
-        <p className="mt-2">In the real product, a YourDOST expert would join a call or chat within minutes. Flagged check-ins are also reviewed by the 24x7 care team.</p>
+        <p className="mt-2">In a real product, an on-call expert would join a call or chat within minutes. Flagged check-ins are also reviewed by the 24x7 care team.</p>
         <p className="mt-4 font-semibold">For real help now, call Tele-MANAS on <a className="text-forest underline" href="tel:14416">14416</a>.</p>
       </Modal>
     </div>

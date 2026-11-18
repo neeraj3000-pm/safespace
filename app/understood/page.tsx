@@ -1,4 +1,5 @@
 "use client";
+import { AIBadge } from "@/components/AIBadge";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Card, PageShell, StickyCTA } from "@/components/ui";
@@ -57,7 +58,10 @@ export default function Understood() {
 
   return (
     <PageShell className="pb-40 sm:pb-10">
-      <p className="text-sm font-semibold text-forest">Here&apos;s what we understood</p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-sm font-semibold text-forest">Here&apos;s what we understood</p>
+        {fallback ? <AIBadge source="fallback" /> : <AIBadge label="Summarised by Claude" />}
+      </div>
       <Card className="mt-3 p-6 sm:p-8 fade-up">
         {fallback ? (
           <>
@@ -114,7 +118,9 @@ export default function Understood() {
         </p>
       </Card>
       <p className="mt-4 text-xs text-muted text-center">
-        {fallback ? "Understanding fell back to your own choices." : "Topics suggested by AI from what you wrote. You're in control of what we use."}
+        {fallback
+          ? "Claude was unavailable or unsure, so we fell back to your own choices. The journey still works."
+          : "Claude suggested these topics from what you wrote, mapped to a fixed list. You're in control of what we use."}
       </p>
       <StickyCTA>
         <Button onClick={next} className="w-full sm:w-auto">Looks right, show my next step</Button>

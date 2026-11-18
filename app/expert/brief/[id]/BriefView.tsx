@@ -7,7 +7,7 @@ export function BriefView(p: {
       <div className="mt-4 rounded-[14px] bg-white border border-line/70 shadow-soft overflow-hidden">
         <div className="bg-sand/60 px-6 py-4 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <p className="text-xs text-muted">YourDOST Expert Console · for {p.expertName}</p>
+            <p className="text-xs text-muted">SafeSpace Expert Console · for {p.expertName}</p>
             <h1 className="font-heading font-semibold text-xl">Before your {p.intro ? "intro call" : "first session"}</h1>
           </div>
           {p.slot && <p className="text-sm font-semibold">{p.slot}</p>}

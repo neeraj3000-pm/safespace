@@ -11,7 +11,7 @@ export default async function Insights() {
   return (
     <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 pt-4 sm:pt-8">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs font-bold uppercase tracking-wide bg-ink text-white rounded-full px-2.5 py-1">Internal · YourDOST team</span>
+        <span className="text-xs font-bold uppercase tracking-wide bg-ink text-white rounded-full px-2.5 py-1">Team dashboard · demo</span>
         <span className="text-xs text-muted">
           ~{d.funnel[0].synthetic} synthetic past sessions + {d.liveSessionCount} live demo sessions · storage: {d.backend}
         </span>

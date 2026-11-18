@@ -3,8 +3,8 @@ import { Logo } from "./Logo";
 
 const NAV = [
   { href: "/#how", label: "How it works" },
-  { href: "/#privacy", label: "Privacy" },
-  { href: "/#faq", label: "FAQ" },
+  { href: "/under-the-hood", label: "Under the hood" },
+  { href: "/insights", label: "Metrics" },
   { href: "/help-now", label: "Get help now" },
 ];
 

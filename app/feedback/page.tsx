@@ -96,7 +96,7 @@ export default function Feedback() {
             <p className="text-muted">Your session with <b className="text-ink">{e.name}</b></p>
           </div>
           <h1 id="heard" className="mt-5 text-3xl font-semibold">Did you feel heard?</h1>
-          <p className="mt-1 text-muted">Only you and the YourDOST care team see this. {first} won&apos;t be told your score.</p>
+          <p className="mt-1 text-muted">Only you and the care team see this. {first} won&apos;t be told your score.</p>
           <div role="radiogroup" aria-labelledby="heard" className="mt-6 grid grid-cols-5 gap-2">
             {FACES.map((x) => (
               <button
@@ -178,7 +178,7 @@ export default function Feedback() {
               </div>
             </div>
           ) : (
-            <Card className="mt-6 p-6">We couldn&apos;t find another match right now. A YourDOST care team member will reach out to help.</Card>
+            <Card className="mt-6 p-6">We couldn&apos;t find another match right now. A care team member will reach out to help.</Card>
           )}
         </div>
       )}

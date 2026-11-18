@@ -98,7 +98,7 @@ npm run seed
 | `NEXT_PUBLIC_APP_URL` | optional for now; add your Vercel URL after the first deploy |
 
 5. Click **Deploy** and wait about 1–2 minutes. You get a URL like `https://next-step-xyz.vercel.app`.
-6. *(Nicer link)* Go to **Settings → Domains** and set something like `next-step-yourdost.vercel.app`.
+6. *(Nicer link)* Go to **Settings → Domains** and set something like `safespace-ai.vercel.app`.
 
 Any later change to environment variables: **Deployments → ⋯ on the latest → Redeploy**.
 Any later push to `main` deploys automatically.
