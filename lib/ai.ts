@@ -111,7 +111,8 @@ export async function understand(input: {
 /* Shared grounding helpers                                            */
 /* ------------------------------------------------------------------ */
 
-const CLINICAL = /(disorder|diagnos|depress(ion|ive)|insomnia|symptom|patient|cure|guarantee|therapist|provider)/i;
+// Clinical / over-promising language. ("patient" is deliberately not here: bios use it as an adjective.)
+const CLINICAL = /(disorder|diagnos|depress(ion|ive)|insomnia|symptom|\bcure|guarantee|therapist|provider)/i;
 
 export function templateLine(e: Expert, concerns: Concern[], language: string): string {
   const topic = e.specialisations.find((s) => concerns.includes(s)) ?? e.specialisations[0];
