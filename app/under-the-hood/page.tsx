@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Eyebrow, LinkButton } from "@/components/ui";
 import { AIBadge } from "@/components/AIBadge";
-import { REPO_URL } from "@/components/Footer";
+import { PORTFOLIO_URL, REPO_URL } from "@/components/Footer";
 import { AI_MODEL_LABEL } from "@/lib/aiModel";
 
 export const metadata = {
@@ -93,6 +93,9 @@ export default function UnderTheHood() {
           <LinkButton href="/start">Try the live demo</LinkButton>
           <a href={REPO_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-md font-medium min-h-12 px-6 text-[15px] bg-lime text-forest-deep border border-forest-deep/70 hover:bg-[#F2F99A]">
             View the code on GitHub ↗
+          </a>
+          <a href={PORTFOLIO_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-md font-medium min-h-12 px-6 text-[15px] text-forest hover:bg-lime/70">
+            More of my work ↗
           </a>
         </div>
       </section>

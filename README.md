@@ -2,6 +2,8 @@
 
 **AI-guided mental wellbeing support, built on the Claude API, with safety rules always first.**
 
+**▶ Live demo: [safespace-beta.vercel.app](https://safespace-beta.vercel.app)** · Case study: [/under-the-hood](https://safespace-beta.vercel.app/under-the-hood) · Metrics: [/insights](https://safespace-beta.vercel.app/insights)
+
 Say what's on your mind in your own words, in English, Hindi or Hinglish. SafeSpace works out the most useful next step (talk to the right expert, start with a self-help tool, or get help right now) and explains why.
 
 > **Portfolio prototype.** All experts, bookings and metrics are fictional, storage is in-memory, and it is not a medical service. The crisis numbers it shows (Tele-MANAS 14416, emergency 112) are real Indian helplines.
@@ -75,4 +77,4 @@ Deployment notes: [`docs/DEPLOY.md`](docs/DEPLOY.md).
 
 ---
 
-Designed and built by Neeraj. Expert photos are illustrated avatars; the landscape photo is used for demonstration.
+Designed and built by **[Neeraj](https://neeraj-portfolio-pm.vercel.app/)**. Experts are shown as illustrated avatars.

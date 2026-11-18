@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 
 export const REPO_URL = "https://github.com/neeraj3000-pm/safespace";
+export const PORTFOLIO_URL = "https://neeraj-portfolio-pm.vercel.app/";
 
 export function Footer() {
   return (
@@ -32,6 +33,7 @@ export function Footer() {
               <li><Link href="/under-the-hood" className="hover:text-lime">How the AI works</Link></li>
               <li><Link href="/insights" className="hover:text-lime">Metrics dashboard</Link></li>
               <li><a href={REPO_URL} className="hover:text-lime" target="_blank" rel="noreferrer">Source on GitHub ↗</a></li>
+              <li><a href={PORTFOLIO_URL} className="hover:text-lime" target="_blank" rel="noreferrer">Neeraj&apos;s portfolio ↗</a></li>
             </ul>
           </div>
           <div>
@@ -43,7 +45,11 @@ export function Footer() {
           </div>
         </div>
         <div className="pt-6 border-t border-white/10 text-xs text-cream/60 text-center space-y-1">
-          <p>SafeSpace is a portfolio prototype designed and built by Neeraj with Next.js and the Claude API.</p>
+          <p>
+            SafeSpace is a portfolio prototype designed and built by{" "}
+            <a href={PORTFOLIO_URL} target="_blank" rel="noreferrer" className="text-lime underline underline-offset-2">Neeraj</a>{" "}
+            with Next.js and the Claude API.
+          </p>
           <p>All experts, data and metrics are fictional. It is not a medical service and doesn&apos;t provide therapy or diagnosis.</p>
         </div>
       </div>
